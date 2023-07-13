@@ -9,7 +9,16 @@ const Formulario = () => {
     symptoms: "",
   });
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    setCita({
+      ...cita,
+      [e.target.name]: e.target.value,
+    });
+    // console.log(cita);
+  };
+  //extraer datos
+  const { pet, owner, date, time, symptoms } = cita;
+
   return (
     <>
       <h2>Create Appointment</h2>
@@ -22,6 +31,7 @@ const Formulario = () => {
           id="pet"
           className="u-full-width"
           placeholder="Pet Name"
+          value={pet}
         />
         <label htmlFor="owner">Pet Owner</label>
         <input
@@ -31,6 +41,7 @@ const Formulario = () => {
           id="owner"
           className="u-full-width"
           placeholder="Pet Owner"
+          value={owner}
         />
         <label htmlFor="date">Date</label>
         <input
@@ -39,6 +50,7 @@ const Formulario = () => {
           name="date"
           id="date"
           className="u-full-width"
+          value={date}
         />
         <label htmlFor="time">Hour</label>
         <input
@@ -47,6 +59,7 @@ const Formulario = () => {
           name="time"
           id="time"
           className="u-full-width"
+          value={time}
         />
         <label htmlFor="symptoms">Symptoms</label>
         <textarea
@@ -56,6 +69,7 @@ const Formulario = () => {
           id="symptoms"
           rows="4"
           placeholder="Describe the symptoms..."
+          value={symptoms}
         ></textarea>
         <button type="submit" className="u-full-width button-primary">
           add appointment
