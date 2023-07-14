@@ -1,11 +1,21 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-const Formulario = () => {
+const Formulario = ({ agregarCita }) => {
+  const [error, setError] = useState(false);
+
+  const currentDate = new Date().toISOString().split("T")[0];
+  const currentTime = new Date()
+    .toLocaleTimeString()
+    .split(":")
+    .slice(0, 2)
+    .join(":");
+
   const [cita, setCita] = useState({
     pet: "",
     owner: "",
-    date: "",
-    time: "",
+    date: currentDate,
+    time: currentTime,
     symptoms: "",
   });
 
@@ -19,10 +29,41 @@ const Formulario = () => {
   //extraer datos
   const { pet, owner, date, time, symptoms } = cita;
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //validar
+    if (
+      pet.trim() === "" ||
+      owner.trim() === "" ||
+      date.trim() === "" ||
+      time.trim() === "" ||
+      symptoms.trim() === ""
+    ) {
+      setError(true);
+
+      return;
+    }
+    setError(false);
+    //asignar id
+    cita.id = uuidv4();
+    //console.log(cita);
+    //crear cita
+    agregarCita(cita);
+    //resetear formulario
+    setCita({
+      pet: "",
+      owner: "",
+      date: currentDate,
+      time: currentTime,
+      symptoms: "",
+    });
+  };
+
   return (
     <>
       <h2>Create Appointment</h2>
-      <form>
+      {error ? <p className="alerta-error">All fields are required</p> : null}
+      <form onSubmit={handleSubmit}>
         <label htmlFor="pet">Pet Name</label>
         <input
           onChange={handleChange}

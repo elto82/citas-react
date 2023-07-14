@@ -1,16 +1,37 @@
+import { useState } from "react";
 import Formulario from "./components/Formulario";
 import "./index.css";
+import Cita from "./components/Cita";
 
 const App = () => {
+  const [citas, setCitas] = useState([]);
+
+  const agregarCita = (cita) => {
+    setCitas([...citas, cita]);
+  };
+
+  const deleteCita = (id) => {
+    const nuevasCitas = citas.filter((cita) => cita.id !== id);
+    setCitas(nuevasCitas);
+  };
+
+  const title =
+    citas.length === 0 ? "No appointments" : "Manage your appointments";
+
   return (
     <>
       <h1>Patient Administrator</h1>
       <div className="container">
         <div className="row">
           <div className="one-half column">
-            <Formulario />
+            <Formulario agregarCita={agregarCita} />
           </div>
-          <div className="one-half column">2</div>
+          <div className="one-half column">
+            <h2>{title}</h2>
+            {citas.map((cita) => (
+              <Cita key={cita.id} cita={cita} deleteCita={deleteCita} />
+            ))}
+          </div>
         </div>
       </div>
     </>
