@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Formulario from "./components/Formulario";
 import "./index.css";
 import Cita from "./components/Cita";
 
 const App = () => {
-  const [citas, setCitas] = useState([]);
+  let initialCitas = JSON.parse(localStorage.getItem("citas"));
+  if (!initialCitas) {
+    initialCitas = [];
+  }
+  const [citas, setCitas] = useState(initialCitas);
+
+  useEffect(() => {
+    if (initialCitas) {
+      localStorage.setItem("citas", JSON.stringify(citas));
+    } else {
+      localStorage.setItem("citas", JSON.stringify([]));
+    }
+  }, [citas]);
 
   const agregarCita = (cita) => {
-    setCitas([...citas, cita]);
+    const nuevasCitas = [...citas, cita];
+    setCitas(nuevasCitas);
+    localStorage.setItem("citas", JSON.stringify(nuevasCitas));
   };
 
   const deleteCita = (id) => {
