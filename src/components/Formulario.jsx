@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 
 const Formulario = ({ agregarCita }) => {
   const [error, setError] = useState(false);
@@ -118,6 +119,18 @@ const Formulario = ({ agregarCita }) => {
       </form>
     </>
   );
+};
+
+Formulario.propTypes = {
+  agregarCita: PropTypes.func,
+  cita: PropTypes.object,
+  setCita: PropTypes.func,
+  error: PropTypes.bool,
+  setError: PropTypes.func,
+  currentDate: PropTypes.string,
+  currentTime: PropTypes.string,
+  handleChange: PropTypes.func,
+  handleSubmit: PropTypes.func,
 };
 
 export default Formulario;
